@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yoshi.chat.domain.repository.ChatLogRepository">
+    <resultMap id="entity" type="com.yoshi.chat.domain.entity.ChatLog" autoMapping="true">
+        <id property="id" column="id"/>
+    </resultMap>
+
+    <sql id="selectColumns">
+        id,
+        user_id,
+        message,
+        chatted_at
+    </sql>
+
+    <select id="findAll" resultMap="entity">
+        SELECT <include refid="selectColumns" />
+        FROM chat_log
+    </select>
+
+    <select id="findAllLimit" resultMap="entity">
+        SELECT <include refid="selectColumns" />
+        FROM chat_log
+        LIMIT #{limit}
+    </select>
+
+    <insert id="create" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO chat_log
+        SET id          = #{id},
+            user_id     = #{userId},
+            message     = #{message},
+            chatted_at  = now(),
+            created_at  = now(),
+            updated_at  = now()
+    </insert>
+</mapper>

@@ -1,1 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/chat
+    username: user
+    password: password
+    driverClassName: com.mysql.jdbc.Driver
 
+  thymeleaf:
+    mode: HTML
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+
+
+#############################################################################
+############################# Custom Properties #############################
+#############################################################################
+
+chat:
+  log:
+    limit: 10
