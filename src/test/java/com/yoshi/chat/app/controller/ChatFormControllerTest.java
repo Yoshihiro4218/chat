@@ -22,6 +22,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(ChatFormController.class)
@@ -61,6 +62,7 @@ public class ChatFormControllerTest {
 
         mockMvc.perform(get(("/form")))
                .andExpect(status().isOk())
+               .andExpect(view().name("pages/form"))
                .andExpect(content().string(containsString("Chat Service (^o^)")))
                .andExpect(content().string(containsString("testMessage1")))
                .andExpect(content().string(containsString("testMessage2")));
