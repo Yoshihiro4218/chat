@@ -22,13 +22,13 @@
 
 
 <table>
-    <div class="chat-log-div" th:each="chatLog: ${chatLogs}" th:object="${chatLog}">
+    <div class="chat-log-div" th:each="chatLogResponse: ${chatLogResponses}" th:object="${chatLogResponse}">
 
-        <p class="chat-log" th:text="*{userId}"></p>
+        <p class="chat-log" th:text="*{userName}"></p>
         <p class="chat-log">： </p>
-        <p class="chat-log" th:text="*{message}"></p>
+        <p class="chat-log" th:text="*{chatLog.message}"></p>
         <div style="text-align: right">
-            <p class="chat-log" th:text="*{chattedAt}"></p>
+            <p class="chat-log" th:text="*{chatLog.chattedAt}"></p>
         </div>
     </div>
 </table>

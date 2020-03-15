@@ -15,6 +15,13 @@
         issued_at
     </sql>
 
+    <select id="find" resultMap="entity">
+        SELECT
+        <include refid="selectColumns"/>
+        FROM user
+        WHERE id = #{id}
+    </select>
+
     <select id="findByCookieValue" resultMap="entity">
         SELECT
         <include refid="selectColumns"/>

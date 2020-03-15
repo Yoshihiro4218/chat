@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
 
+import java.time.*;
 import java.util.*;
 
 @Service
@@ -22,6 +23,7 @@ public class ChatLogService {
         return chatLogRepository.create(ChatLog.builder()
                                                .userId(userId)
                                                .message(message)
+                                               .chattedAt(LocalDateTime.now())
                                                .build());
     }
 }

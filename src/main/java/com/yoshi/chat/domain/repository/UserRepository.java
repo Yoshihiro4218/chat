@@ -7,6 +7,8 @@ import java.util.*;
 
 @Mapper
 public interface UserRepository {
+    Optional<User> find(long id);
+
     Optional<User> findByCookieValue(String cookieValue);
 
     int create(User user);

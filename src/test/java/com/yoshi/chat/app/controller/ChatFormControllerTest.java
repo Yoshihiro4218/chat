@@ -26,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(ChatFormController.class)
+@Ignore
 public class ChatFormControllerTest {
     private MockMvc mockMvc;
     @Autowired
