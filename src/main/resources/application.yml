@@ -20,3 +20,6 @@ mybatis:
 chat:
   log:
     limit: 10
+
+cookie-name:
+  userCookie: UCFSM # User Cookie For Session Management

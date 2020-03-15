@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat Service (^o^)</title>
+    <link rel="stylesheet" type="text/css" th:href="@{webjars/bootstrap/4.2.1/css/bootstrap.min.css}">
+</head>
+<style>
+    #user-name {
+        height: 50px;
+        width: 300px;
+        font-size: x-large;
+    }
+    .submit-button {
+        margin-left: 70px;
+        height: 40px;
+        width: 120px;
+        background-color: #bafffc;
+    }
+</style>
+<body>
+
+<h1 style="border-bottom: solid black">Chat Service (^o^)</h1>
+<h2>名前を入力してください</h2>
+<p th:if="${userNameNull}" style="color: red">名前が入力されていません</p>
+
+<form action="#" th:action="@{/entrance}" method="post">
+    <label for="user-name">
+        <input id="user-name" type="text" name="userName">
+    </label>
+    <br>
+    <input class="submit-button" type="submit" value="入室する">
+</form>
+
+</body>
+</html>

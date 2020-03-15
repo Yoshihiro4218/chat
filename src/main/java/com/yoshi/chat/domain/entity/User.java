@@ -8,10 +8,12 @@ import java.time.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ChatLog {
+public class User {
     private Long id;
-    private long userId;
-    private String message;
     @NonNull
-    private LocalDateTime chattedAt;
+    private String cookieValue;
+    @NonNull
+    private String userName;
+    @NonNull
+    private LocalDateTime issued_at;
 }

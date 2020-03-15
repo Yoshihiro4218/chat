@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yoshi.chat.domain.repository.UserRepository">
+    <resultMap id="entity" type="com.yoshi.chat.domain.entity.User" autoMapping="true">
+        <id property="id" column="id"/>
+    </resultMap>
+
+    <sql id="selectColumns">
+        id,
+        cookie_value,
+        user_name,
+        issued_at
+    </sql>
+
+    <select id="findByCookieValue" resultMap="entity">
+        SELECT
+        <include refid="selectColumns"/>
+        FROM user
+        WHERE cookie_value = #{cookieValue}
+    </select>
+
+    <insert id="create" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO user
+        SET cookie_value = #{cookieValue},
+            user_name    = #{userName},
+            issued_at    = now(),
+            created_at   = now(),
+            updated_at   = now()
+    </insert>
+</mapper>

@@ -5,5 +5,6 @@ CREATE TABLE chat_log
     message    VARCHAR(1024),
     chatted_at DATETIME NOT NULL,
     created_at DATETIME NOT NULL,
-    updated_at DATETIME NOT NULL
+    updated_at DATETIME NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES chat_log (id)
 );

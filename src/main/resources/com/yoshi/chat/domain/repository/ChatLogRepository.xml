@@ -32,8 +32,7 @@
 
     <insert id="create" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO chat_log
-        SET id         = #{id},
-            user_id    = #{userId},
+        SET user_id    = #{userId},
             message    = #{message},
             chatted_at = now(),
             created_at = now(),
