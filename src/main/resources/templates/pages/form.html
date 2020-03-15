@@ -3,25 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Chat Service (^o^)</title>
+    <link rel="stylesheet" type="text/css" th:href="@{webjars/bootstrap/4.2.1/css/bootstrap.min.css}">
 </head>
+<style>
+    .chat-log-div {
+        border-bottom: solid 1px black;
+        background-color: #e8fffc;
+        font-size: x-large;
+    }
+
+    .chat-log {
+        display: inline-block;
+    }
+</style>
 <body>
 
-<h1>Chat Service (^o^)</h1>
+<h1 style="border-bottom: solid black">Chat Service (^o^)</h1>
 
 
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th>name</th>
-        <th>message</th>
-    </tr>
-    </thead>
-    <tbody th:each="chatLog: ${chatLogs}" th:object="${chatLog}">
-    <tr>
-        <td th:text="*{userId}"></td>
-        <td th:text="*{message}"></td>
-    </tr>
-    </tbody>
+<table>
+    <div class="chat-log-div" th:each="chatLog: ${chatLogs}" th:object="${chatLog}">
+
+        <p class="chat-log" th:text="*{userId}"></p>
+        <p class="chat-log">： </p>
+        <p class="chat-log" th:text="*{message}"></p>
+        <div style="text-align: right">
+            <p class="chat-log" th:text="*{chattedAt}"></p>
+        </div>
+    </div>
 </table>
 </body>
 </html>
