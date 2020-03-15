@@ -16,23 +16,27 @@
     </sql>
 
     <select id="findAll" resultMap="entity">
-        SELECT <include refid="selectColumns" />
+        SELECT
+        <include refid="selectColumns"/>
         FROM chat_log
+        ORDER BY chatted_at DESC
     </select>
 
     <select id="findAllLimit" resultMap="entity">
-        SELECT <include refid="selectColumns" />
+        SELECT
+        <include refid="selectColumns"/>
         FROM chat_log
+        ORDER BY chatted_at DESC
         LIMIT #{limit}
     </select>
 
     <insert id="create" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO chat_log
-        SET id          = #{id},
-            user_id     = #{userId},
-            message     = #{message},
-            chatted_at  = now(),
-            created_at  = now(),
-            updated_at  = now()
+        SET id         = #{id},
+            user_id    = #{userId},
+            message    = #{message},
+            chatted_at = now(),
+            created_at = now(),
+            updated_at = now()
     </insert>
 </mapper>
