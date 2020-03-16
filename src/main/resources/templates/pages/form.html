@@ -55,7 +55,7 @@
 <script th:inline="javascript">
     function clickSubmitBtn() {
         let el = document.getElementById('chat-text');
-        el.setAttribute("disabled", "disabled");
+
         let text = el.value;
         if (text === "") {
             window.alert("テキストを入力してください");
@@ -67,7 +67,6 @@
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.send("message=" + text);
         xhr.onload = () => {
-            el.removeAttribute("disabled");
             el.value = "";
             //TODO: 暫定
             location.reload();
