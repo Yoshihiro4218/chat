@@ -15,11 +15,31 @@
     .chat-log {
         display: inline-block;
     }
+
+    .submit-button {
+        margin-left: 30px;
+        height: 40px;
+        width: 120px;
+        background-color: #ffddca;
+    }
+
+    #chat-text {
+        height: 50px;
+        width: 500px;
+        font-size: x-large;
+    }
 </style>
 <body>
 
 <h1 style="border-bottom: solid black">Chat Service (^o^)</h1>
 
+<div style="border-bottom: solid black">
+    <label for="chat-text">
+<!--        TODO: エンターのときも-->
+        <input id="chat-text" onkeypress="onKeyPress(event.keyCode);" type="text" name="chatText" value="">
+    </label>
+    <input class="submit-button" onclick="clickSubmitBtn()" type="button" value="送信する">
+</div>
 
 <table>
     <div class="chat-log-div" th:each="chatLogResponse: ${chatLogResponses}" th:object="${chatLogResponse}">
@@ -32,5 +52,31 @@
         </div>
     </div>
 </table>
+<script th:inline="javascript">
+    function clickSubmitBtn() {
+        let el = document.getElementById('chat-text');
+        el.setAttribute("disabled", "disabled");
+        let text = el.value;
+        if (text === "") {
+            window.alert("テキストを入力してください");
+            return null;
+        }
+        let xhr = new XMLHttpRequest();
+        let url = "/form/new";
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.send("message=" + text);
+        xhr.onload = () => {
+            el.removeAttribute("disabled");
+            el.value = "";
+            //TODO: 暫定
+            location.reload();
+        };
+    }
+    <!--        TODO: エンターのときも-->
+    function onKeyPress(e) {
+        if (e.keyCode === '13') clickSubmitBtn();
+    }
+</script>
 </body>
 </html>
