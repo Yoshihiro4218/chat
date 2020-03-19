@@ -38,7 +38,7 @@
 <!--        TODO: エンターのときも-->
         <input id="chat-text" onkeypress="onKeyPress(event.keyCode);" type="text" name="chatText" value="">
     </label>
-    <input class="submit-button" onclick="clickSubmitBtn()" type="button" value="送信する">
+    <input class="submit-button" onclick="clickSubmitBtn()" type="button" value="送信/更新">
 </div>
 
 <table>
@@ -58,7 +58,7 @@
 
         let text = el.value;
         if (text === "") {
-            window.alert("テキストを入力してください");
+            location.reload();
             return null;
         }
         let xhr = new XMLHttpRequest();
