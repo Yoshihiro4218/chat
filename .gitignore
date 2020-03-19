@@ -1,3 +1,4 @@
 /.idea/
 /docker/mysql/data/**
 /target/
+/chat.iml
