@@ -12,9 +12,13 @@ services:
       - "3306:3306"
     volumes:
       - ./docker/mysql/data:/var/lib/mysql
-      - ./docker/mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
 
   app:
     build: ./
+    ports:
+      - "8080:8080"
+    environment:
+      spring.datasource.url: jdbc:mysql://db/chat?autoReconnect=true&useSSL=false&serverTimezone=JST
+      spring.datasource.driverClassName: "com.mysql.cj.jdbc.Driver"
     depends_on:
       - db
