@@ -18,7 +18,9 @@ services:
     ports:
       - "8080:8080"
     environment:
-      spring.datasource.url: jdbc:mysql://db/chat?autoReconnect=true&useSSL=false&serverTimezone=JST
       spring.datasource.driverClassName: "com.mysql.cj.jdbc.Driver"
+      spring.datasource.url: "jdbc:mysql://db/chat"
+      spring.datasource.username: "user"
+      spring.datasource.password: "password"
     depends_on:
       - db
