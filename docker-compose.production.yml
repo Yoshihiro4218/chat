@@ -16,7 +16,7 @@ services:
   app:
     build: ./
     ports:
-      - "8080:8080"
+      - "80:8080"
     environment:
       spring.datasource.driverClassName: "com.mysql.cj.jdbc.Driver"
       spring.datasource.url: "jdbc:mysql://db/chat"
