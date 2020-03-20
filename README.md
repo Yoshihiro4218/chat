@@ -109,3 +109,29 @@ spring-boot-starter-websocket
 </script>
 </html>
 ```
+
+`https://hacknote.jp/archives/6107/` 様
+- docker-compose 自動起動
+```
+amazon linuxの起動時にdockerのコンテナを自動起動する
+amazon linuxを起動したときにdockerのコンテナを自動起動するように設定する方法です。
+まずdocker自体の起動を有効にしておきます。
+
+chkconfig docker on
+次に以下のようにスクリプトを配置します。以下はtestというコンテナを起動する場合の例です。
+
+vim /var/lib/cloud/scripts/per-boot/start_container.sh
+--------------------------------------------------------
+#!/bin/sh
+
+cd /home/ec2-user
+/usr/local/bin/docker-compose up -d
+--------------------------------------------------------
+/var/lib/cloud/scripts/per-boot/に置いたスクリプトは起動毎にcloud-initが自動で実行してくれます。
+```
+備忘: rootユーザで実行するので `/usr/local/bin/docker-compose` で指定しておく。
+
+- `docker-compose` でログ見る
+```
+$ docker-compose logs -f
+```
