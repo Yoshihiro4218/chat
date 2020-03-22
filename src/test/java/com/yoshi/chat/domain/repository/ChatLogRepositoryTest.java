@@ -17,6 +17,13 @@
 //    @Autowired
 //    private JdbcTemplate jdbcTemplate;
 //
+//    @Before
+//    public void setUp() {
+//        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 0");
+//    }
+//
 //    @Test
-//    public void
+//    public void findAll() {
+//
+//    }
 //}
