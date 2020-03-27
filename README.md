@@ -161,3 +161,45 @@ cd /home/ec2-user
 ```
 $ docker-compose logs -f
 ```
+
+```java
+    public enum KadonoFamilly {
+        ANIKI,
+        WATASHI,
+        OYAJI,
+        OFUKURO,
+        TORAJIRO,
+        SHIMA;
+        static {
+            ANIKI.parents = asList(OYAJI, OFUKURO);
+            WATASHI.parents = asList(OYAJI, OFUKURO);
+            OYAJI.parents = emptyList();
+            OFUKURO.parents = emptyList();
+            TORAJIRO.parents = singletonList(WATASHI);
+            SHIMA.parents = singletonList(WATASHI);
+        }
+        private List<KadonoFamilly> parents;
+        public List<KadonoFamilly> getParents() {
+            return parents;
+        }
+    }
+```
+```
+    @Test
+    public void hoge() {
+        System.out.println(KadonoFamilly.ANIKI.parents); // 出力: [OYAJI, OFUKURO]
+    }
+```
+
+```
+        Runnable runnable1 = () -> userEmailCoordinator.create(1008L, "kadono@gamil.com");
+        Runnable runnable2 = () -> userEmailCoordinator.create(1008L, "kadono2@gamil.com");
+        new Thread(runnable1).start();
+        new Thread(runnable2).start();
+        try {
+            Thread.sleep(10000L);
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+```
