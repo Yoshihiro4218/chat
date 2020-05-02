@@ -1,6 +1,19 @@
 version: '2'
 
 services:
+  https-portal:
+    image: steveltn/https-portal:1
+    ports:
+      - '80:80'
+      - '443:443'
+    links:
+      - app
+    restart: always
+    environment:
+      DOMAINS: 'hoge.kadono.work -> http://dockerhost:8080'
+      STAGE: 'production'
+      # FORCE_RENEW: 'true'
+
   db:
     image: mysql:8.0.17
     environment:
@@ -16,7 +29,7 @@ services:
   app:
     build: ./
     ports:
-      - "80:8080"
+      - "8080:8080"
     environment:
       spring.datasource.driverClassName: "com.mysql.cj.jdbc.Driver"
       spring.datasource.url: "jdbc:mysql://db/chat"
