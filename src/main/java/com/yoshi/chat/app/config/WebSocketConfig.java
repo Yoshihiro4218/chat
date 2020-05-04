@@ -12,12 +12,17 @@ import org.springframework.web.socket.config.annotation.*;
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/queue");//サーバーサイドから送り返す先のprefix
-        config.setApplicationDestinationPrefixes("/app");//MessageMappingのprefix
+        config.enableSimpleBroker("/topic");
+        config.setApplicationDestinationPrefixes("/app");
+
+//        config.enableSimpleBroker("/queue");//サーバーサイドから送り返す先のprefix
+//        config.setApplicationDestinationPrefixes("/app");//MessageMappingのprefix
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/endpoint").withSockJS();//ブローカーに管理させるエンドポイント。クライアントサイドでSockJsを利用する場合は'/ws'
+        registry.addEndpoint("/gs-guide-websocket").withSockJS();
+
+//        registry.addEndpoint("/ws").withSockJS();//ブローカーに管理させるエンドポイント。クライアントサイドでSockJsを利用する場合は'/ws'
     }
 }

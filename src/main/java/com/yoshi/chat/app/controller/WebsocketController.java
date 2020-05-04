@@ -12,7 +12,9 @@ import org.springframework.messaging.handler.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.*;
 
+import javax.servlet.http.*;
 import java.util.*;
 import java.util.stream.*;
 
@@ -47,22 +49,70 @@ public class WebsocketController {
         return "pages/formWebSocket";
     }
 
-    @MessageMapping(value = "/websocket/new" /* 宛先名 */)
-    // Controller内の@MessageMappingアノテーションをつけたメソッドが、メッセージを受け付ける
-    @SendTo(value = "/queue/chat") // 処理結果の送り先
-    @ResponseBody
-    public String chat(String message) {
-//        String cookieValue = RetrieveCookieUtil.retrieveValue(request.getCookies(),
-//                                                              cookieNameProperties.getUserCookie());
-//        chatCoordinator.confirmUserAndCreateChatLog(cookieValue, message);
-        log.info("WebSocket:{}", message);
-        return message;
+//    @MessageMapping("/hello")
+//    @SendTo("/topic/greetings")
+//    public String greeting(String message,
+//                           HttpServletRequest request) throws Exception {
+////        String cookieValue = RetrieveCookieUtil.retrieveValue(request.getCookies(),
+////                                                              cookieNameProperties.getUserCookie());
+////        chatCoordinator.confirmUserAndCreateChatLog(cookieValue, message);
+//        Thread.sleep(1000);
+//        return message;
+//    }
+
+    //  ----------------------------------Example-----------------------------------------------
+    @GetMapping("/example")
+    public String example() {
+        return "pages/example";
     }
+
+    @MessageMapping("/hello")
+    @SendTo("/topic/greetings")
+    public Greeting greeting(HelloMessage message) throws Exception {
+        Thread.sleep(1000); // simulated delay
+        return new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getName()) + "!");
+    }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Greeting {
+        private String content;
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class HelloMessage {
+        private String name;
+    }
+
+//    ----------------------------------------------------------------------------------------
+
+//    @MessageMapping(value = "/websocket/new" /* 宛先名 */)
+//    // Controller内の@MessageMappingアノテーションをつけたメソッドが、メッセージを受け付ける
+//    @SendTo(value = "/queue/chat") // 処理結果の送り先
+//    @ResponseBody
+//    public String chat(String message) {
+////        String cookieValue = RetrieveCookieUtil.retrieveValue(request.getCookies(),
+////                                                              cookieNameProperties.getUserCookie());
+////        chatCoordinator.confirmUserAndCreateChatLog(cookieValue, message);
+//        log.info("WebSocket:{}", message);
+//        return message;
+//    }
 
     @Value
     @Builder
     private static class ChatLogResponse {
         ChatLog chatLog;
+        String userName;
+    }
+
+    @Value
+    @Builder
+    private static class NewMessage {
+        String newMessage;
         String userName;
     }
 }
