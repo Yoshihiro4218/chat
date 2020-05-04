@@ -2,6 +2,7 @@ package com.yoshi.chat.app.controller;
 
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.annotation.*;
+import com.yoshi.chat.app.common.util.*;
 import com.yoshi.chat.app.coordinator.*;
 import com.yoshi.chat.app.properties.*;
 import com.yoshi.chat.domain.entity.*;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.*;
+import java.time.*;
 import java.util.*;
 import java.util.stream.*;
 
@@ -28,7 +31,12 @@ public class WebsocketController {
     private final CookieNameProperties cookieNameProperties;
 
     @GetMapping("/websocket/form")
-    public String form(Model model) {
+    public String form(Model model,
+                       HttpServletRequest request) {
+        String myName = userService.findByCookieValue(RetrieveCookieUtil.retrieveValue(request.getCookies(),
+                                                                                       cookieNameProperties.getUserCookie()))
+                                   .orElseThrow(() -> new RuntimeException("No User"))
+                                   .getUserName();
         List<ChatLog> chatLogs =
                 chatLogService.findAllLimit(chatLogProperties.getLimit());
         List<ChatLogResponse> chatLogResponses =
@@ -44,14 +52,13 @@ public class WebsocketController {
                         })
                         .collect(Collectors.toList());
         model.addAttribute("chatLogResponses", chatLogResponses);
+        model.addAttribute("myName", myName);
         return "pages/formWebSocket";
     }
 
     @MessageMapping("/whisper")
     @SendTo("/topic/chat")
     public NewMessage greeting(ReceivedMessage receivedMessage) {
-//        String cookieValue = RetrieveCookieUtil.retrieveValue(request.getCookies(),
-//                                                              cookieNameProperties.getUserCookie());
         log.info("Message={}", receivedMessage);
         return NewMessage.builder()
                          .newMessage(receivedMessage.getMessage())
