@@ -33,10 +33,8 @@ public class WebsocketController {
     @GetMapping("/websocket/form")
     public String form(Model model,
                        HttpServletRequest request) {
-        String myName = userService.findByCookieValue(RetrieveCookieUtil.retrieveValue(request.getCookies(),
-                                                                                       cookieNameProperties.getUserCookie()))
-                                   .orElseThrow(() -> new RuntimeException("No User"))
-                                   .getUserName();
+        String cookieValue = RetrieveCookieUtil.retrieveValue(request.getCookies(),
+                                                              cookieNameProperties.getUserCookie());
         List<ChatLog> chatLogs =
                 chatLogService.findAllLimit(chatLogProperties.getLimit());
         List<ChatLogResponse> chatLogResponses =
@@ -52,17 +50,22 @@ public class WebsocketController {
                         })
                         .collect(Collectors.toList());
         model.addAttribute("chatLogResponses", chatLogResponses);
-        model.addAttribute("myName", myName);
+        model.addAttribute("cookieValue", cookieValue);
         return "pages/formWebSocket";
     }
 
     @MessageMapping("/whisper")
     @SendTo("/topic/chat")
-    public NewMessage greeting(ReceivedMessage receivedMessage) {
-        log.info("Message={}", receivedMessage);
+    public NewMessage chat(ReceivedMessage receivedMessage) {
+        log.info("Cookie={}", receivedMessage.getCookie());
+        log.info("Message={}", receivedMessage.getMessage());
+        User user = chatCoordinator.confirmUserAndCreateChatLog(receivedMessage.getCookie(),
+                                                                receivedMessage.getMessage());
+//        TODO: ログとnowがずれるかもしれんが、面倒なのでとりあえずスルー
         return NewMessage.builder()
                          .newMessage(receivedMessage.getMessage())
-                         .userName("MyNameIs...")
+                         .userName(user.getUserName())
+                         .now(LocalDateTime.now())
                          .build();
     }
 
@@ -92,6 +95,7 @@ public class WebsocketController {
     @Builder
     private static class ReceivedMessage {
         String message;
+        String cookie;
     }
 
     @Getter
@@ -102,5 +106,6 @@ public class WebsocketController {
     private static class NewMessage {
         String newMessage;
         String userName;
+        LocalDateTime now;
     }
 }

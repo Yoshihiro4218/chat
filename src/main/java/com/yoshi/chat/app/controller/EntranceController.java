@@ -11,19 +11,18 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.*;
 
 @Controller
-@RequestMapping("/entrance")
 @AllArgsConstructor
 public class EntranceController {
     private final UserService userService;
     private final UserCookieValueHelper userCookieValueHelper;
     private final CookieNameProperties cookieNameProperties;
 
-    @GetMapping("")
+    @GetMapping("/entrance")
     public String form() {
         return "pages/entrance";
     }
 
-    @PostMapping("")
+    @PostMapping("/entrance")
     public String entry(@RequestParam String userName,
                         Model model,
                         HttpServletResponse response) {
@@ -35,5 +34,24 @@ public class EntranceController {
         userService.create(cookieValue, userName);
         response.addCookie(new Cookie(cookieNameProperties.getUserCookie(), cookieValue));
         return "redirect:/form";
+    }
+
+    @GetMapping("/websocket/entrance")
+    public String formWebsocket() {
+        return "pages/entranceWebsocket";
+    }
+
+    @PostMapping("/websocket/entrance")
+    public String entryWebsocket(@RequestParam String userName,
+                        Model model,
+                        HttpServletResponse response) {
+        if (userName.isEmpty()) {
+            model.addAttribute("userNameNull", true);
+            return "pages/entranceWebsocket";
+        }
+        String cookieValue = userCookieValueHelper.generate();
+        userService.create(cookieValue, userName);
+        response.addCookie(new Cookie(cookieNameProperties.getUserCookie(), cookieValue));
+        return "redirect:/websocket/form";
     }
 }

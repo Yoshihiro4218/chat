@@ -14,9 +14,10 @@ public class ChatCoordinator {
     private final ChatLogService chatLogService;
 
     //    TODO: exceptionが適当
-    public int confirmUserAndCreateChatLog(String cookieValue, String message) {
+    public User confirmUserAndCreateChatLog(String cookieValue, String message) {
         User user = userService.findByCookieValue(cookieValue)
                                .orElseThrow(() -> new RuntimeException("No User"));
-        return chatLogService.create(user.getId(), message);
+        chatLogService.create(user.getId(), message);
+        return user;
     }
 }

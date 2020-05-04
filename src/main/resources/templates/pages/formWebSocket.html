@@ -58,7 +58,7 @@
 
 <script th:inline="javascript">
     /*<![CDATA[*/
-    const myName = /*[[ ${myName} ]]*/ '名無しさん';
+    const cookieValue = /*[[ ${cookieValue} ]]*/ '名無しさん';
     /*]]>*/
 </script>
 
@@ -74,8 +74,8 @@
             //     showGreeting(JSON.parse(greeting.body).content);
             // });
             stompClient.subscribe('/topic/chat', function (message) {
-                console.log(JSON.parse(message.body).new_message);
-                showMessage(JSON.parse(message.body).new_message);
+                console.log(JSON.parse(message.body));
+                showMessage(JSON.parse(message.body));
             });
         });
     }
@@ -83,18 +83,21 @@
     connect();
 
     function sendMessage() {
-        stompClient.send("/app/whisper", {}, JSON.stringify({'message': $("#chat-text").val()}));
+        stompClient.send("/app/whisper", {}, JSON.stringify({
+            'message': $("#chat-text").val(),
+            'cookie': cookieValue
+        }));
         $("#chat-text").val('');
     }
 
-    function showMessage(message) {
+    function showMessage(newMessage) {
         $("#whisper-text").prepend(
             "<div class='chat-log-div'>" +
-            "<p class=\"chat-log\">" + myName + "</p>\n" +
+            "<p class=\"chat-log\">" + newMessage.user_name + "</p>\n" +
             "<p class=\"chat-log\">： </p>\n" +
-            "<p class=\"chat-log\">" + message + "</p>\n" +
+            "<p class=\"chat-log\">" + newMessage.new_message + "</p>\n" +
             "<div style=\"text-align: right\">\n" +
-            "<p class=\"chat-log\">なう(^o^)(仮)</p>\n" +
+            "<p class=\"chat-log\">newMessage.now</p>\n" +
             "</div>" +
             "</div>"
         );
