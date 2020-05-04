@@ -1,20 +1,18 @@
 package com.yoshi.chat.app.controller;
 
-import com.yoshi.chat.app.common.util.*;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.annotation.*;
 import com.yoshi.chat.app.coordinator.*;
 import com.yoshi.chat.app.properties.*;
 import com.yoshi.chat.domain.entity.*;
 import com.yoshi.chat.domain.service.*;
 import lombok.*;
 import lombok.extern.slf4j.*;
-import org.springframework.http.*;
 import org.springframework.messaging.handler.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.*;
 
-import javax.servlet.http.*;
 import java.util.*;
 import java.util.stream.*;
 
@@ -49,15 +47,17 @@ public class WebsocketController {
         return "pages/formWebSocket";
     }
 
-//    @MessageMapping("/hello")
-//    @SendTo("/topic/greetings")
-//    public String greeting(String message,
-//                           HttpServletRequest request) throws Exception {
-////        String cookieValue = RetrieveCookieUtil.retrieveValue(request.getCookies(),
-////                                                              cookieNameProperties.getUserCookie());
-//        Thread.sleep(1000);
-//        return message;
-//    }
+    @MessageMapping("/whisper")
+    @SendTo("/topic/chat")
+    public NewMessage greeting(ReceivedMessage receivedMessage) {
+//        String cookieValue = RetrieveCookieUtil.retrieveValue(request.getCookies(),
+//                                                              cookieNameProperties.getUserCookie());
+        log.info("Message={}", receivedMessage);
+        return NewMessage.builder()
+                         .newMessage(receivedMessage.getMessage())
+                         .userName("MyNameIs...")
+                         .build();
+    }
 
 //    @MessageMapping(value = "/websocket/new" /* 宛先名 */)
 //    // Controller内の@MessageMappingアノテーションをつけたメソッドが、メッセージを受け付ける
@@ -78,8 +78,20 @@ public class WebsocketController {
         String userName;
     }
 
-    @Value
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
     @Builder
+    private static class ReceivedMessage {
+        String message;
+    }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
     private static class NewMessage {
         String newMessage;
         String userName;
