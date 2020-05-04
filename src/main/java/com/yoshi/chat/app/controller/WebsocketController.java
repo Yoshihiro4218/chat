@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.*;
 import java.time.*;
+import java.time.temporal.*;
 import java.util.*;
 import java.util.stream.*;
 
@@ -65,7 +66,7 @@ public class WebsocketController {
         return NewMessage.builder()
                          .newMessage(receivedMessage.getMessage())
                          .userName(user.getUserName())
-                         .now(LocalDateTime.now())
+                         .now(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS))
                          .build();
     }
 
