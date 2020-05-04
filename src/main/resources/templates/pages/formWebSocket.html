@@ -84,6 +84,7 @@
 
     function sendMessage() {
         stompClient.send("/app/whisper", {}, JSON.stringify({'message': $("#chat-text").val()}));
+        $("#chat-text").val('');
     }
 
     function showMessage(message) {
