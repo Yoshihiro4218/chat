@@ -21,7 +21,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/gs-guide-websocket").withSockJS();
+        registry.addEndpoint("/gs-guide-websocket")
+//                TODO: ベタ書きｨ！
+                .setAllowedOrigins("https://hoge.kadono.work")
+                .withSockJS();
 
 //        registry.addEndpoint("/ws").withSockJS();//ブローカーに管理させるエンドポイント。クライアントサイドでSockJsを利用する場合は'/ws'
     }

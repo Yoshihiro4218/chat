@@ -12,7 +12,10 @@ services:
     environment:
       DOMAINS: 'hoge.kadono.work -> http://dockerhost:8080'
       STAGE: 'production'
+      WEBSOCKET: 'true'
       # FORCE_RENEW: 'true'
+      # CLIENT_MAX_BODY_SIZE: 0  # これだと無制限
+      # CLIENT_MAX_BODY_SIZE: 10M # とか
 
   db:
     image: mysql:8.0.17
