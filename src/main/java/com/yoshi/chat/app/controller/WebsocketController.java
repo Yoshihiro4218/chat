@@ -55,40 +55,9 @@ public class WebsocketController {
 //                           HttpServletRequest request) throws Exception {
 ////        String cookieValue = RetrieveCookieUtil.retrieveValue(request.getCookies(),
 ////                                                              cookieNameProperties.getUserCookie());
-////        chatCoordinator.confirmUserAndCreateChatLog(cookieValue, message);
 //        Thread.sleep(1000);
 //        return message;
 //    }
-
-    //  ----------------------------------Example-----------------------------------------------
-    @GetMapping("/example")
-    public String example() {
-        return "pages/example";
-    }
-
-    @MessageMapping("/hello")
-    @SendTo("/topic/greetings")
-    public Greeting greeting(HelloMessage message) throws Exception {
-        Thread.sleep(1000); // simulated delay
-        return new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getName()) + "!");
-    }
-
-    @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class Greeting {
-        private String content;
-    }
-
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class HelloMessage {
-        private String name;
-    }
-
-//    ----------------------------------------------------------------------------------------
 
 //    @MessageMapping(value = "/websocket/new" /* 宛先名 */)
 //    // Controller内の@MessageMappingアノテーションをつけたメソッドが、メッセージを受け付ける

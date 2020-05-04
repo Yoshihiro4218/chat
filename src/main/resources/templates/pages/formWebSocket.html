@@ -35,15 +35,14 @@
 
 <div style="border-bottom: solid black">
   <label for="chat-text">
-    <input id="chat-text" type="text" name="chatText"
-           value="">
+    <!--        TODO: エンターのときも-->
+    <input id="chat-text" onkeypress="onKeyPress(event.keyCode);" type="text" name="chatText" value="">
   </label>
-  <input class="submit-button" type="button" value="送信/更新">
+  <input class="submit-button" onclick="clickSubmitBtn()" type="button" value="送信/更新">
 </div>
 
 <table>
-  <div class="chat-log-div" th:each="chatLogResponse: ${chatLogResponses}"
-       th:object="${chatLogResponse}">
+  <div class="chat-log-div" th:each="chatLogResponse: ${chatLogResponses}" th:object="${chatLogResponse}">
 
     <p class="chat-log" th:text="*{userName}"></p>
     <p class="chat-log">： </p>
