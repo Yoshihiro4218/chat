@@ -42,6 +42,7 @@
         <input id="chat-text" type="text" name="chatText" value="">
     </label>
     <input id="send" class="submit-button" type="button" value="送信/更新">
+    <a href="/websocket/entrance">戻る（仮）</a>
 </div>
 
 <div id="whisper-text"></div>
@@ -93,9 +94,9 @@
     function showMessage(newMessage) {
         $("#whisper-text").prepend(
             "<div class='chat-log-div'>" +
-            "<p class=\"chat-log\">" + newMessage.user_name + "</p>\n" +
+            "<p class=\"chat-log\">" + escape_html(newMessage.user_name) + "</p>\n" +
             "<p class=\"chat-log\">： </p>\n" +
-            "<p class=\"chat-log\">" + newMessage.new_message + "</p>\n" +
+            "<p class=\"chat-log\">" + escape_html(newMessage.new_message) + "</p>\n" +
             "<div style=\"text-align: right\">\n" +
             "<p class=\"chat-log\">" + newMessage.now + "</p>\n" +
             "</div>" +
@@ -109,6 +110,21 @@
         });
     });
 
+    function escape_html (string) {
+        if(typeof string !== 'string') {
+            return string;
+        }
+        return string.replace(/[&'`"<>]/g, function(match) {
+            return {
+                '&': '&amp;',
+                "'": '&#x27;',
+                '`': '&#x60;',
+                '"': '&quot;',
+                '<': '&lt;',
+                '>': '&gt;',
+            }[match]
+        });
+    }
 
     // /**
     //  * 初期化処理
