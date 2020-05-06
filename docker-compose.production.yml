@@ -16,6 +16,8 @@ services:
       # FORCE_RENEW: 'true'
       # CLIENT_MAX_BODY_SIZE: 0  # これだと無制限
       # CLIENT_MAX_BODY_SIZE: 10M # とか
+    volumes:
+      - ./org-chimata-ssl-certs:/var/lib/https-portal
 
   db:
     image: mysql:8.0.17
