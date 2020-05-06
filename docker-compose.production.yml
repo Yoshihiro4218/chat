@@ -10,7 +10,7 @@ services:
       - app
     restart: always
     environment:
-      DOMAINS: 'hoge.kadono.work -> http://dockerhost:8080'
+      DOMAINS: 'fuga.kadono.work -> http://dockerhost:8080'
       STAGE: 'production'
       WEBSOCKET: 'true'
       # FORCE_RENEW: 'true'
