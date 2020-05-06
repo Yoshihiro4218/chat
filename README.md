@@ -143,7 +143,10 @@ amazon linuxの起動時にdockerのコンテナを自動起動する
 amazon linuxを起動したときにdockerのコンテナを自動起動するように設定する方法です。
 まずdocker自体の起動を有効にしておきます。
 
-chkconfig docker on
+```
+$ chkconfig docker on
+```
+
 次に以下のようにスクリプトを配置します。以下はtestというコンテナを起動する場合の例です。
 
 vim /var/lib/cloud/scripts/per-boot/start_container.sh
