@@ -204,3 +204,19 @@ $ docker-compose logs -f
             e.printStackTrace();
         }
 ```
+
+## Linuxのタイムゾーン設定
+`https://qiita.com/azusanakano/items/b39bd22504313884a7c3` 様参考
+```
+# 一応、バックアップを取ります
+cp /etc/sysconfig/clock /etc/sysconfig/clock.org
+
+# viなどで編集してもよし
+echo -e 'ZONE="Asia/Tokyo"\nUTC=false' > /etc/sysconfig/clock
+
+# 一応、バックアップを取ります
+cp /etc/localtime /etc/localtime.org
+
+# timezoneファイル差し替え
+ln -sf  /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+```
