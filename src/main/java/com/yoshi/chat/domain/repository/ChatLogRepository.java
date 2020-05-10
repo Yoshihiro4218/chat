@@ -9,7 +9,7 @@ import java.util.*;
 public interface ChatLogRepository {
     List<ChatLog> findAll();
 
-    List<ChatLog> findAllLimit(int limit);
+    List<ChatLog> findLimit(int limit);
 
     int create(ChatLog chatLog);
 }

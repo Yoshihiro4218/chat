@@ -23,7 +23,7 @@ public class ChatLogServiceTest {
     @Test
     public void findAllLimit() {
         List<ChatLog> chatLogs = Arrays.asList(mock(ChatLog.class), mock(ChatLog.class));
-        when(chatLogRepository.findAllLimit(10)).thenReturn(chatLogs);
+        when(chatLogRepository.findLimit(10)).thenReturn(chatLogs);
 
         assertThat(target.findAllLimit(10)).isEqualTo(chatLogs);
     }

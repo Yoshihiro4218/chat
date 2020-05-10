@@ -16,7 +16,7 @@ public class ChatLogService {
     private final ChatLogRepository chatLogRepository;
 
     public List<ChatLog> findAllLimit(int limit) {
-        return chatLogRepository.findAllLimit(limit);
+        return chatLogRepository.findLimit(limit);
     }
 
     public int create(long userId, String message) {

@@ -22,7 +22,7 @@
         ORDER BY chatted_at DESC
     </select>
 
-    <select id="findAllLimit" resultMap="entity">
+    <select id="findLimit" resultMap="entity">
         SELECT
         <include refid="selectColumns"/>
         FROM chat_log
