@@ -26,6 +26,7 @@ services:
       MYSQL_USER: 'user'
       MYSQL_PASSWORD: 'password'
       MYSQL_ROOT_PASSWORD: 'root_password'
+      TZ: "Asia/Tokyo"
     ports:
       - "3306:3306"
     volumes:
@@ -37,7 +38,7 @@ services:
       - "8080:8080"
     environment:
       spring.datasource.driverClassName: "com.mysql.cj.jdbc.Driver"
-      spring.datasource.url: "jdbc:mysql://db/chat"
+      spring.datasource.url: "jdbc:mysql://db/chat?useUnicode=true&userJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
       spring.datasource.username: "user"
       spring.datasource.password: "password"
     depends_on:
