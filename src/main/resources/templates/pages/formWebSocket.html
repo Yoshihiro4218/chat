@@ -39,7 +39,7 @@
 <div style="border-bottom: solid black">
   <label for="chat-text">
     <!--        TODO: エンターのときも-->
-    <input id="chat-text" type="text" name="chatText" value="">
+    <input id="chat-text" type="text" name="chatText" value="" autofocus>
   </label>
   <input id="send" class="submit-button" type="button" value="送信/更新">
   <a href="/websocket/entrance">戻る（仮）</a>
@@ -84,11 +84,13 @@ function connect() {
 connect();
 
 function sendMessage() {
+  let chatText = $("#chat-text");
+  if (chatText.val().length === 0) return;
   stompClient.send("/app/whisper", {}, JSON.stringify({
-    'message': $("#chat-text").val(),
+    'message': chatText.val(),
     'cookie': cookieValue
   }));
-  $("#chat-text").val('');
+  chatText.val('');
 }
 
 function showMessage(newMessage) {
