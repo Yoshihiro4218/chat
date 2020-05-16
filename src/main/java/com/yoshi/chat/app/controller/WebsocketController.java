@@ -89,12 +89,14 @@ public class WebsocketController {
         String userName;
     }
 
+
+    //    TODO: 入室メッセージのために public にしているが、よくない
     @Getter
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    private static class ReceivedMessage {
+    public static class ReceivedMessage {
         String message;
         String cookie;
     }
@@ -104,7 +106,7 @@ public class WebsocketController {
     @AllArgsConstructor
     @Builder
     @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-    private static class NewMessage {
+    public static class NewMessage {
         String newMessage;
         String userName;
         LocalDateTime now;
