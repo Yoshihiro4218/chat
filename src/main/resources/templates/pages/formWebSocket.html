@@ -1,210 +1,229 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title>Chat Service (^o^) (WebSocket)</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}">
-    <script type="text/javascript" th:src="@{/js/jquery-3.5.0.min.js}"></script>
-    <script type="text/javascript" th:src="@{/js/stomp.js}"></script>
-    <script type="text/javascript" th:src="@{/js/sockjs.js}"></script>
+  <meta charset="UTF-8">
+  <title>Chat Service (^o^) (WebSocket)</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}">
+  <script type="text/javascript" th:src="@{/js/jquery-3.5.0.min.js}"></script>
+  <script type="text/javascript" th:src="@{/js/stomp.js}"></script>
+  <script type="text/javascript" th:src="@{/js/sockjs.js}"></script>
 </head>
 <style>
-    .chat-log-div {
-        border-bottom: solid 1px black;
-        background-color: #e8fffc;
-        font-size: x-large;
-    }
+.chat-log-div {
+  border-bottom: solid 1px black;
+  background-color: #e8fffc;
+  font-size: x-large;
+}
 
-    .chat-log {
-        display: inline-block;
-    }
+.chat-log {
+  display: inline-block;
+}
 
-    .submit-button {
-        margin-left: 30px;
-        height: 40px;
-        width: 120px;
-        background-color: #ffddca;
-    }
+.submit-button {
+  margin-left: 30px;
+  height: 40px;
+  width: 120px;
+  background-color: #ffddca;
+}
 
-    #chat-text {
-        height: 50px;
-        width: 500px;
-        font-size: x-large;
-    }
+#chat-text {
+  height: 50px;
+  width: 500px;
+  font-size: x-large;
+}
 </style>
 <body>
 
 <h1 style="border-bottom: solid black">Chat Service (^o^) (WebSocket)</h1>
 
 <div style="border-bottom: solid black">
-    <label for="chat-text">
-        <!--        TODO: エンターのときも-->
-        <input id="chat-text" type="text" name="chatText" value="">
-    </label>
-    <input id="send" class="submit-button" type="button" value="送信/更新">
-    <a href="/websocket/entrance">戻る（仮）</a>
+  <label for="chat-text">
+    <!--        TODO: エンターのときも-->
+    <input id="chat-text" type="text" name="chatText" value="">
+  </label>
+  <input id="send" class="submit-button" type="button" value="送信/更新">
+  <a href="/websocket/entrance">戻る（仮）</a>
 </div>
 
 <div id="whisper-text"></div>
 <table>
-    <div class="chat-log-div" th:each="chatLogResponse: ${chatLogResponses}" th:object="${chatLogResponse}">
-        <p class="chat-log" th:text="*{userName}"></p>
-        <p class="chat-log">： </p>
-        <p class="chat-log" th:text="*{chatLog.message}"></p>
-        <div style="text-align: right">
-            <p class="chat-log" th:text="*{chatLog.chattedAt}"></p>
-        </div>
+  <div class="chat-log-div" th:each="chatLogResponse: ${chatLogResponses}" th:object="${chatLogResponse}">
+    <p class="chat-log" th:text="*{userName}"></p>
+    <p class="chat-log">： </p>
+    <p class="chat-log" th:text="*{chatLog.message}"></p>
+    <div style="text-align: right">
+      <p class="chat-log" th:text="*{chatLog.chattedAt}"></p>
     </div>
+  </div>
 </table>
 
 <script th:inline="javascript">
-    /*<![CDATA[*/
-    const cookieValue = /*[[ ${cookieValue} ]]*/ '名無しさん';
-    /*]]>*/
+/*<![CDATA[*/
+const cookieValue = /*[[ ${cookieValue} ]]*/ '名無しさん';
+/*]]>*/
 </script>
 
 <script type="text/javascript">
-    var stompClient = null;
+var stompClient = null;
 
-    function connect() {
-        var socket = new SockJS('/gs-guide-websocket');
-        stompClient = Stomp.over(socket);
-        stompClient.connect({}, function (frame) {
-            console.log('Connected: ' + frame);
-            // stompClient.subscribe('/topic/chat', function (greeting) {
-            //     showGreeting(JSON.parse(greeting.body).content);
-            // });
-            stompClient.subscribe('/topic/chat', function (message) {
-                console.log(JSON.parse(message.body));
-                showMessage(JSON.parse(message.body));
-            });
-        });
-    }
-
-    connect();
-
-    function sendMessage() {
-        stompClient.send("/app/whisper", {}, JSON.stringify({
-            'message': $("#chat-text").val(),
-            'cookie': cookieValue
-        }));
-        $("#chat-text").val('');
-    }
-
-    function showMessage(newMessage) {
-        $("#whisper-text").prepend(
-            "<div class='chat-log-div'>" +
-            "<p class=\"chat-log\">" + escape_html(newMessage.user_name) + "</p>\n" +
-            "<p class=\"chat-log\">： </p>\n" +
-            "<p class=\"chat-log\">" + escape_html(newMessage.new_message) + "</p>\n" +
-            "<div style=\"text-align: right\">\n" +
-            "<p class=\"chat-log\">" + newMessage.now + "</p>\n" +
-            "</div>" +
-            "</div>"
-        );
-    }
-
-    $(function () {
-        $("#send").click(function () {
-            sendMessage();
-        });
+function connect() {
+  var socket = new SockJS('/gs-guide-websocket');
+  stompClient = Stomp.over(socket);
+  stompClient.connect({}, function (frame) {
+    console.log('Connected: ' + frame);
+    // stompClient.subscribe('/topic/chat', function (greeting) {
+    //     showGreeting(JSON.parse(greeting.body).content);
+    // });
+    stompClient.subscribe('/topic/chat', function (message) {
+      console.log(JSON.parse(message.body));
+      showMessage(JSON.parse(message.body));
     });
+  });
+}
 
-    function escape_html (string) {
-        if(typeof string !== 'string') {
-            return string;
-        }
-        return string.replace(/[&'`"<>]/g, function(match) {
-            return {
-                '&': '&amp;',
-                "'": '&#x27;',
-                '`': '&#x60;',
-                '"': '&quot;',
-                '<': '&lt;',
-                '>': '&gt;',
-            }[match]
-        });
+connect();
+
+function sendMessage() {
+  stompClient.send("/app/whisper", {}, JSON.stringify({
+    'message': $("#chat-text").val(),
+    'cookie': cookieValue
+  }));
+  $("#chat-text").val('');
+}
+
+function showMessage(newMessage) {
+  $("#whisper-text").prepend(
+    "<div class='chat-log-div'>" +
+    "<p class=\"chat-log\">" + escape_html(newMessage.user_name) + "</p>\n" +
+    "<p class=\"chat-log\">： </p>\n" +
+    "<p class=\"chat-log\">" + escape_html(newMessage.new_message) + "</p>\n" +
+    "<div style=\"text-align: right\">\n" +
+    "<p class=\"chat-log\">" + newMessage.now + "</p>\n" +
+    "</div>" +
+    "</div>"
+  );
+}
+
+$(function () {
+  $("#send").click(function () {
+    sessionCheck();
+    sendMessage();
+  });
+  $("#chat-text").keypress(function (event) {
+    const keycode = (event.keyCode ? event.keyCode : event.which);
+    if (keycode === 13) {
+      sessionCheck();
+      sendMessage();
     }
+  });
+});
 
-    // /**
-    //  * 初期化処理
-    //  */
-    // var HelloStomp = function () {
-    //   this.connect.bind(this);
-    //   this.sendButton = document.getElementById('chat-text');
-    //   this.sendButton.addEventListener('click', this.sendName.bind(this));
-    //
-    //   // this.connectButton = document.getElementById('connect');
-    //   // this.disconnectButton = document.getElementById('disconnect');
-    //   // this.sendButton = document.getElementById('send');
-    //   //
-    //   // // イベントハンドラの登録
-    //   // this.connectButton.addEventListener('click', this.connect.bind(this));
-    //   // this.disconnectButton.addEventListener('click', this.disconnect.bind(this));
-    //   // this.sendButton.addEventListener('click', this.sendName.bind(this));
-    // };
-    //
-    // /**
-    //  * エンドポイントへの接続処理
-    //  */
-    // HelloStomp.prototype.connect = function () {
-    //   var socket = new WebSocket('ws://' + location.host + '/endpoint'); // エンドポイントのURL
-    //   this.stompClient = Stomp.over(socket); // WebSocketを使ったStompクライアントを作成
-    //   this.stompClient.connect({}, this.onConnected.bind(this)); // エンドポイントに接続し、接続した際のコールバックを登録
-    // };
-    //
-    // /**
-    //  * エンドポイントへ接続したときの処理
-    //  */
-    // HelloStomp.prototype.onConnected = function (frame) {
-    //   console.log('Connected: ' + frame);
-    //   // 宛先が'/topic/greetings'のメッセージを購読し、コールバック処理を登録
-    //   // 今回は `/queue/chat` だけど
-    //   this.stompClient.subscribe('/queue/chat', this.onSubscribeGreeting.bind(this));
-    //   this.setConnected(true);
-    // };
-    //
-    // /**
-    //  * 宛先'/topic/greetings'なメッセージを受信したときの処理
-    //  */
-    // HelloStomp.prototype.onSubscribeGreeting = function (message) {
-    //   console.log(message)
-    //
-    //   // var response = document.getElementById('response');
-    //   // var p = document.createElement('p');
-    //   // p.appendChild(document.createTextNode(message.body));
-    //   // response.insertBefore(p, response.children[0]);
-    // };
-    //
-    // /**
-    //  * 宛先'/app/greet'へのメッセージ送信処理
-    //  */
-    // HelloStomp.prototype.sendName = function () {
-    //   var name = document.getElementById('chat-text').value;
-    //   this.stompClient.send('/websocket/new', {}, name); // 宛先'/app/greet'へメッセージを送信 今回は`/websocket/new`だけど
-    // };
-    //
-    // /**
-    //  * 接続切断処理
-    //  */
-    // // HelloStomp.prototype.disconnect = function () {
-    // //   if (this.stompClient) {
-    // //     this.stompClient.disconnect();
-    // //     this.stompClient = null;
-    // //   }
-    // //   this.setConnected(false);
-    // // };
-    //
-    // /**
-    //  * ボタン表示の切り替え
-    //  */
-    // // HelloStomp.prototype.setConnected = function (connected) {
-    // //   this.connectButton.disabled = connected;
-    // //   this.disconnectButton.disabled = !connected;
-    // //   this.sendButton.disabled = !connected;
-    // // };
-    //
-    // new HelloStomp();
+function escape_html(string) {
+  if (typeof string !== 'string') {
+    return string;
+  }
+  return string.replace(/[&'`"<>]/g, function (match) {
+    return {
+      '&': '&amp;',
+      "'": '&#x27;',
+      '`': '&#x60;',
+      '"': '&quot;',
+      '<': '&lt;',
+      '>': '&gt;',
+    }[match]
+  });
+}
+
+function sessionCheck() {
+  let cookies = document.cookie;
+  let cookiesArray = cookies.split(';');
+  for (let c of cookiesArray) {
+    let cArray = c.split('=');
+    if (cArray[0] !== 'UCFSM') {
+      window.location.href = '/websocket/entrance';
+    }
+  }
+}
+
+// /**
+//  * 初期化処理
+//  */
+// var HelloStomp = function () {
+//   this.connect.bind(this);
+//   this.sendButton = document.getElementById('chat-text');
+//   this.sendButton.addEventListener('click', this.sendName.bind(this));
+//
+//   // this.connectButton = document.getElementById('connect');
+//   // this.disconnectButton = document.getElementById('disconnect');
+//   // this.sendButton = document.getElementById('send');
+//   //
+//   // // イベントハンドラの登録
+//   // this.connectButton.addEventListener('click', this.connect.bind(this));
+//   // this.disconnectButton.addEventListener('click', this.disconnect.bind(this));
+//   // this.sendButton.addEventListener('click', this.sendName.bind(this));
+// };
+//
+// /**
+//  * エンドポイントへの接続処理
+//  */
+// HelloStomp.prototype.connect = function () {
+//   var socket = new WebSocket('ws://' + location.host + '/endpoint'); // エンドポイントのURL
+//   this.stompClient = Stomp.over(socket); // WebSocketを使ったStompクライアントを作成
+//   this.stompClient.connect({}, this.onConnected.bind(this)); // エンドポイントに接続し、接続した際のコールバックを登録
+// };
+//
+// /**
+//  * エンドポイントへ接続したときの処理
+//  */
+// HelloStomp.prototype.onConnected = function (frame) {
+//   console.log('Connected: ' + frame);
+//   // 宛先が'/topic/greetings'のメッセージを購読し、コールバック処理を登録
+//   // 今回は `/queue/chat` だけど
+//   this.stompClient.subscribe('/queue/chat', this.onSubscribeGreeting.bind(this));
+//   this.setConnected(true);
+// };
+//
+// /**
+//  * 宛先'/topic/greetings'なメッセージを受信したときの処理
+//  */
+// HelloStomp.prototype.onSubscribeGreeting = function (message) {
+//   console.log(message)
+//
+//   // var response = document.getElementById('response');
+//   // var p = document.createElement('p');
+//   // p.appendChild(document.createTextNode(message.body));
+//   // response.insertBefore(p, response.children[0]);
+// };
+//
+// /**
+//  * 宛先'/app/greet'へのメッセージ送信処理
+//  */
+// HelloStomp.prototype.sendName = function () {
+//   var name = document.getElementById('chat-text').value;
+//   this.stompClient.send('/websocket/new', {}, name); // 宛先'/app/greet'へメッセージを送信 今回は`/websocket/new`だけど
+// };
+//
+// /**
+//  * 接続切断処理
+//  */
+// // HelloStomp.prototype.disconnect = function () {
+// //   if (this.stompClient) {
+// //     this.stompClient.disconnect();
+// //     this.stompClient = null;
+// //   }
+// //   this.setConnected(false);
+// // };
+//
+// /**
+//  * ボタン表示の切り替え
+//  */
+// // HelloStomp.prototype.setConnected = function (connected) {
+// //   this.connectButton.disabled = connected;
+// //   this.disconnectButton.disabled = !connected;
+// //   this.sendButton.disabled = !connected;
+// // };
+//
+// new HelloStomp();
 </script>
 </body>
 </html>
