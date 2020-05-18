@@ -220,3 +220,20 @@ cp /etc/localtime /etc/localtime.org
 # timezoneファイル差し替え
 ln -sf  /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 ```
+
+## Amazon Linux のVolume を拡張した話
+```
+# lsblk コマンドで、容量が増えていることを確認
+$ lsblk
+
+# パーティションの拡張
+$ sudo growpart /dev/xvda 1
+
+# ファイルシステムの拡張
+# $ sudo resize2fs /dev/xvda1 出来ず
+# XFSではresize2fs の代わりに xfs_growfs を使えばOK
+$ sudo xfs_growfs /dev/centos/root
+
+# 確認
+$ lsblk
+$ df -h
