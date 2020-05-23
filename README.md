@@ -110,7 +110,7 @@ spring-boot-starter-websocket
 </html>
 ```
 
-- EC2 で Docker で動かそう！！
+- EC2 で Docker で動かそう！！！
 ```
 $ sudo yum update
 $ sudo yum install -y docker
