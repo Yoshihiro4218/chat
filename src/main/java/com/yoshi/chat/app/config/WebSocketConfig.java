@@ -23,7 +23,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/gs-guide-websocket")
 //                TODO: ベタ書きｨ！
-                .setAllowedOrigins("https://fuga.kadono.work")
+                .setAllowedOrigins("https://fuga.kadono.work", "https://home.kadono.work")
                 .withSockJS();
 
 //        registry.addEndpoint("/ws").withSockJS();//ブローカーに管理させるエンドポイント。クライアントサイドでSockJsを利用する場合は'/ws'
