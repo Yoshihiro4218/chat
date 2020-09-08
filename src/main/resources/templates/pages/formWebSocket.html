@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>Chat Service (^o^) (WebSocket)</title>
@@ -31,6 +31,10 @@
   width: 500px;
   font-size: x-large;
 }
+
+.manager {
+  color: #e20202;
+}
 </style>
 <body>
 
@@ -38,7 +42,6 @@
 
 <div style="border-bottom: solid black">
   <label for="chat-text">
-    <!--        TODO: エンターのときも-->
     <input id="chat-text" type="text" name="chatText" value="" autofocus>
   </label>
   <input id="send" class="submit-button" type="button" value="送信/更新">
@@ -48,9 +51,12 @@
 <div id="whisper-text"></div>
 <table>
   <div class="chat-log-div" th:each="chatLogResponse: ${chatLogResponses}" th:object="${chatLogResponse}">
-    <p class="chat-log" th:text="*{userName}"></p>
-    <p class="chat-log">： </p>
-    <p class="chat-log" th:text="*{chatLog.message}"></p>
+    <p class="chat-log"
+       th:classappend="${chatLogResponse.userName == '[システム(^o^)]'} ? 'manager'" th:text="*{userName}"></p>
+    <p class="chat-log"
+       th:classappend="${chatLogResponse.userName == '[システム(^o^)]'} ? 'manager'">： </p>
+    <p class="chat-log" th:text="*{chatLog.message}"
+       th:classappend="${chatLogResponse.userName == '[システム(^o^)]'} ? 'manager'"></p>
     <div style="text-align: right">
       <p class="chat-log" th:text="*{chatLog.chattedAt}"></p>
     </div>
@@ -91,16 +97,29 @@ function sendMessage() {
 }
 
 function showMessage(newMessage) {
-  $("#whisper-text").prepend(
-    "<div class='chat-log-div'>" +
-    "<p class=\"chat-log\">" + escape_html(newMessage.user_name) + "</p>\n" +
-    "<p class=\"chat-log\">： </p>\n" +
-    "<p class=\"chat-log\">" + escape_html(newMessage.new_message) + "</p>\n" +
-    "<div style=\"text-align: right\">\n" +
-    "<p class=\"chat-log\">" + newMessage.now + "</p>\n" +
-    "</div>" +
-    "</div>"
-  );
+  if (newMessage.user_name === '[システム(^o^)]') {
+    $("#whisper-text").prepend(
+      "<div class='chat-log-div'>" +
+      "<p class=\"chat-log manager\">" + escape_html(newMessage.user_name) + "</p>\n" +
+      "<p class=\"chat-log manager\">： </p>\n" +
+      "<p class=\"chat-log manager\">" + escape_html(newMessage.new_message) + "</p>\n" +
+      "<div style=\"text-align: right\">\n" +
+      "<p class=\"chat-log\">" + newMessage.now + "</p>\n" +
+      "</div>" +
+      "</div>"
+    );
+  } else {
+    $("#whisper-text").prepend(
+      "<div class='chat-log-div'>" +
+      "<p class=\"chat-log\">" + escape_html(newMessage.user_name) + "</p>\n" +
+      "<p class=\"chat-log\">： </p>\n" +
+      "<p class=\"chat-log\">" + escape_html(newMessage.new_message) + "</p>\n" +
+      "<div style=\"text-align: right\">\n" +
+      "<p class=\"chat-log\">" + newMessage.now + "</p>\n" +
+      "</div>" +
+      "</div>"
+    );
+  }
 }
 
 $(function () {
