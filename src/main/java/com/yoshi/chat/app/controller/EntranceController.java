@@ -74,10 +74,6 @@ public class EntranceController {
                                                                       .userName("[システム(^o^)]")
                                                                       .now(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS))
                                                                       .build());
-//        websocketController.chat(ReceivedMessage.builder()
-//                                                .cookie("chat_service_system_user_cookie_value")
-//                                                .message(userName + "さんが入室しました")
-//                                                .build());
         response.addCookie(new Cookie(cookieNameProperties.getUserCookie(), cookieValue));
         return "redirect:/websocket/form";
     }

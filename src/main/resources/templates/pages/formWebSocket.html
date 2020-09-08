@@ -64,16 +64,13 @@ const cookieValue = /*[[ ${cookieValue} ]]*/ '名無しさん';
 </script>
 
 <script type="text/javascript">
-var stompClient = null;
+let stompClient = null;
 
 function connect() {
-  var socket = new SockJS('/gs-guide-websocket');
+  let socket = new SockJS('/websocket-endpoint');
   stompClient = Stomp.over(socket);
   stompClient.connect({}, function (frame) {
     console.log('Connected: ' + frame);
-    // stompClient.subscribe('/topic/chat', function (greeting) {
-    //     showGreeting(JSON.parse(greeting.body).content);
-    // });
     stompClient.subscribe('/topic/chat', function (message) {
       console.log(JSON.parse(message.body));
       showMessage(JSON.parse(message.body));
@@ -146,86 +143,6 @@ function sessionCheck() {
     }
   }
 }
-
-// /**
-//  * 初期化処理
-//  */
-// var HelloStomp = function () {
-//   this.connect.bind(this);
-//   this.sendButton = document.getElementById('chat-text');
-//   this.sendButton.addEventListener('click', this.sendName.bind(this));
-//
-//   // this.connectButton = document.getElementById('connect');
-//   // this.disconnectButton = document.getElementById('disconnect');
-//   // this.sendButton = document.getElementById('send');
-//   //
-//   // // イベントハンドラの登録
-//   // this.connectButton.addEventListener('click', this.connect.bind(this));
-//   // this.disconnectButton.addEventListener('click', this.disconnect.bind(this));
-//   // this.sendButton.addEventListener('click', this.sendName.bind(this));
-// };
-//
-// /**
-//  * エンドポイントへの接続処理
-//  */
-// HelloStomp.prototype.connect = function () {
-//   var socket = new WebSocket('ws://' + location.host + '/endpoint'); // エンドポイントのURL
-//   this.stompClient = Stomp.over(socket); // WebSocketを使ったStompクライアントを作成
-//   this.stompClient.connect({}, this.onConnected.bind(this)); // エンドポイントに接続し、接続した際のコールバックを登録
-// };
-//
-// /**
-//  * エンドポイントへ接続したときの処理
-//  */
-// HelloStomp.prototype.onConnected = function (frame) {
-//   console.log('Connected: ' + frame);
-//   // 宛先が'/topic/greetings'のメッセージを購読し、コールバック処理を登録
-//   // 今回は `/queue/chat` だけど
-//   this.stompClient.subscribe('/queue/chat', this.onSubscribeGreeting.bind(this));
-//   this.setConnected(true);
-// };
-//
-// /**
-//  * 宛先'/topic/greetings'なメッセージを受信したときの処理
-//  */
-// HelloStomp.prototype.onSubscribeGreeting = function (message) {
-//   console.log(message)
-//
-//   // var response = document.getElementById('response');
-//   // var p = document.createElement('p');
-//   // p.appendChild(document.createTextNode(message.body));
-//   // response.insertBefore(p, response.children[0]);
-// };
-//
-// /**
-//  * 宛先'/app/greet'へのメッセージ送信処理
-//  */
-// HelloStomp.prototype.sendName = function () {
-//   var name = document.getElementById('chat-text').value;
-//   this.stompClient.send('/websocket/new', {}, name); // 宛先'/app/greet'へメッセージを送信 今回は`/websocket/new`だけど
-// };
-//
-// /**
-//  * 接続切断処理
-//  */
-// // HelloStomp.prototype.disconnect = function () {
-// //   if (this.stompClient) {
-// //     this.stompClient.disconnect();
-// //     this.stompClient = null;
-// //   }
-// //   this.setConnected(false);
-// // };
-//
-// /**
-//  * ボタン表示の切り替え
-//  */
-// // HelloStomp.prototype.setConnected = function (connected) {
-// //   this.connectButton.disabled = connected;
-// //   this.disconnectButton.disabled = !connected;
-// //   this.sendButton.disabled = !connected;
-// // };
-//
-// new HelloStomp();
 </script>
 </body>
 </html>

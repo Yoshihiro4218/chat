@@ -70,18 +70,6 @@ public class WebsocketController {
                          .build();
     }
 
-//    @MessageMapping(value = "/websocket/new" /* 宛先名 */)
-//    // Controller内の@MessageMappingアノテーションをつけたメソッドが、メッセージを受け付ける
-//    @SendTo(value = "/queue/chat") // 処理結果の送り先
-//    @ResponseBody
-//    public String chat(String message) {
-////        String cookieValue = RetrieveCookieUtil.retrieveValue(request.getCookies(),
-////                                                              cookieNameProperties.getUserCookie());
-////        chatCoordinator.confirmUserAndCreateChatLog(cookieValue, message);
-//        log.info("WebSocket:{}", message);
-//        return message;
-//    }
-
     @Value
     @Builder
     private static class ChatLogResponse {
