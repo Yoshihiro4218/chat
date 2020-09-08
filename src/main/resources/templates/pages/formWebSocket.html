@@ -77,7 +77,7 @@ function connect() {
   stompClient = Stomp.over(socket);
   stompClient.connect({}, function (frame) {
     console.log('Connected: ' + frame);
-    stompClient.subscribe('/topic/chat', function (message) {
+    stompClient.subscribe('/client/chat', function (message) {
       console.log(JSON.parse(message.body));
       showMessage(JSON.parse(message.body));
     });
@@ -89,7 +89,7 @@ connect();
 function sendMessage() {
   let chatText = $("#chat-text");
   if (chatText.val().length === 0) return;
-  stompClient.send("/app/whisper", {}, JSON.stringify({
+  stompClient.send("/server/whisper", {}, JSON.stringify({
     'message': chatText.val(),
     'cookie': cookieValue
   }));

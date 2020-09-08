@@ -34,35 +34,49 @@ public class WebsocketController {
     @GetMapping("/websocket/form")
     public String form(Model model,
                        HttpServletRequest request) {
-        String cookieValue = RetrieveCookieUtil.retrieveValue(request.getCookies(),
-                                                              cookieNameProperties.getUserCookie());
+        //        TODO: 応急処置でtry-catch
+        String cookieValue;
+        try {
+            cookieValue = RetrieveCookieUtil.retrieveValue(request.getCookies(),
+                                                           cookieNameProperties.getUserCookie());
+        } catch (RuntimeException unused) {
+            return "redirect:/websocket/entrance";
+        }
         List<ChatLog> chatLogs =
                 chatLogService.findAllLimit(chatLogProperties.getLimit());
-        List<ChatLogResponse> chatLogResponses =
-                chatLogs.stream()
-                        .map(chatLog -> {
-                            String userName = userService.find(chatLog.getUserId())
-                                                         .orElseThrow(() -> new RuntimeException("No User"))
-                                                         .getUserName();
-                            return ChatLogResponse.builder()
-                                                  .chatLog(chatLog)
-                                                  .userName(userName)
-                                                  .build();
-                        })
-                        .collect(Collectors.toList());
+
+        //        TODO: 応急処置でtry-catch
+        List<ChatLogResponse> chatLogResponses;
+        try {
+            chatLogResponses =
+                    chatLogs.stream()
+                            .map(chatLog -> {
+                                String userName = userService.find(chatLog.getUserId())
+                                                             .orElseThrow(() -> new RuntimeException("No User"))
+                                                             .getUserName();
+                                return ChatLogResponse.builder()
+                                                      .chatLog(chatLog)
+                                                      .userName(userName)
+                                                      .build();
+                            })
+                            .collect(Collectors.toList());
+        } catch (RuntimeException unused) {
+            return "redirect:/websocket/entrance";
+        }
+
         model.addAttribute("chatLogResponses", chatLogResponses);
         model.addAttribute("cookieValue", cookieValue);
         return "pages/formWebSocket";
     }
 
     @MessageMapping("/whisper")
-    @SendTo("/topic/chat")
+    @SendTo("/client/chat")
     public NewMessage chat(ReceivedMessage receivedMessage) {
         log.info("Cookie={}", receivedMessage.getCookie());
         log.info("Message={}", receivedMessage.getMessage());
         User user = chatCoordinator.confirmUserAndCreateChatLog(receivedMessage.getCookie(),
                                                                 receivedMessage.getMessage());
-//        TODO: ログとnowがずれるかもしれんが、面倒なのでとりあえずスルー
+//        TODO: ログとnowがずれるが応急処置なのでとりあえずスルー
         return NewMessage.builder()
                          .newMessage(receivedMessage.getMessage())
                          .userName(user.getUserName())

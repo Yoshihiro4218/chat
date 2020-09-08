@@ -41,7 +41,7 @@ public class EntranceController {
         userService.create(cookieValue, userName);
         //        TODO: いつかなおす。
         chatLogService.create(1L, userName + "さんが入室しました");
-        simpMessagingTemplate.convertAndSend("/topic/chat", NewMessage.builder()
+        simpMessagingTemplate.convertAndSend("/client/chat", NewMessage.builder()
                                                                       .newMessage(userName + "さんが入室しました")
                                                                       // TODO: ハードコードすんません
                                                                       .userName("[システム(^o^)]")
@@ -68,7 +68,7 @@ public class EntranceController {
         userService.create(cookieValue, userName);
 //        TODO: いつかなおす。
         chatLogService.create(1L, userName + "さんが入室しました");
-        simpMessagingTemplate.convertAndSend("/topic/chat", NewMessage.builder()
+        simpMessagingTemplate.convertAndSend("/client/chat", NewMessage.builder()
                                                                       .newMessage(userName + "さんが入室しました")
                                                                       // TODO: ハードコードすんません
                                                                       .userName("[システム(^o^)]")
