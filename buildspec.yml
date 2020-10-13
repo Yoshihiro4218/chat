@@ -15,7 +15,6 @@ phases:
   build:
     commands:
       - echo "Building Chat Backend!"
-      - cd backend
       - mvn clean package
       - docker build -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/chat:$IMAGE_TAG .
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/chat:$IMAGE_TAG
