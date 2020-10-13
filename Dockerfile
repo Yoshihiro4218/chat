@@ -12,5 +12,5 @@ RUN rm -f /etc/localtime && \
 USER spring-boot
 WORKDIR /opt/spring-boot
 EXPOSE 8080
-ADD ./chat.jar /opt/spring-boot/
+ADD ./target/chat.jar /opt/spring-boot/
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/opt/spring-boot/chat.jar"]

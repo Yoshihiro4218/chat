@@ -16,6 +16,7 @@ phases:
     commands:
       - echo "Building Chat Backend!"
       - mvn clean package -Dmaven.test.skip=true
+      - ls -la
       - docker build -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/chat:$IMAGE_TAG .
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/chat:$IMAGE_TAG
       - cd $BASE_DIR
