@@ -42,11 +42,11 @@ public class EntranceController {
         //        TODO: いつかなおす。
         chatLogService.create(1L, userName + "さんが入室しました");
         simpMessagingTemplate.convertAndSend("/client/chat", NewMessage.builder()
-                                                                      .newMessage(userName + "さんが入室しました")
-                                                                      // TODO: ハードコードすんません
-                                                                      .userName("[システム(^o^)]")
-                                                                      .now(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS))
-                                                                      .build());
+                                                                       .newMessage(userName + "さんが入室しました")
+                                                                       // TODO: ハードコードすんません
+                                                                       .userName("[システム(^o^)]")
+                                                                       .now(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS))
+                                                                       .build());
         response.addCookie(new Cookie(cookieNameProperties.getUserCookie(), cookieValue));
         return "redirect:/form";
     }
@@ -69,11 +69,11 @@ public class EntranceController {
 //        TODO: いつかなおす。
         chatLogService.create(1L, userName + "さんが入室しました");
         simpMessagingTemplate.convertAndSend("/client/chat", NewMessage.builder()
-                                                                      .newMessage(userName + "さんが入室しました")
-                                                                      // TODO: ハードコードすんません
-                                                                      .userName("[システム(^o^)]")
-                                                                      .now(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS))
-                                                                      .build());
+                                                                       .newMessage(userName + "さんが入室しました")
+                                                                       // TODO: ハードコードすんません
+                                                                       .userName("[システム(^o^)]")
+                                                                       .now(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS))
+                                                                       .build());
         response.addCookie(new Cookie(cookieNameProperties.getUserCookie(), cookieValue));
         return "redirect:/websocket/form";
     }
