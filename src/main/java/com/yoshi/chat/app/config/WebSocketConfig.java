@@ -17,7 +17,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/websocket-endpoint")
 //                TODO: ベタ書きｨ！
-                .setAllowedOrigins("https://fuga.kadono.work", "https://home.kadono.work")
+                .setAllowedOrigins("https://www.kadono.work", "https://fuga.kadono.work", "https://home.kadono.work")
                 .withSockJS();
     }
 }
