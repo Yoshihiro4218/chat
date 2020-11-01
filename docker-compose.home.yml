@@ -7,12 +7,12 @@ services:
       - '80:80'
       - '443:443'
     extra_hosts:
-      - 'home.kadono.work:127.0.0.1'
+      - 'home.kadowork.com:127.0.0.1'
     links:
       - app
     # restart: always
     environment:
-      DOMAINS: 'home.kadono.work -> http://app:8080'
+      DOMAINS: 'home.kadowork.com -> http://app:8080'
       STAGE: 'production'
       WEBSOCKET: 'true'
       # FORCE_RENEW: 'true'

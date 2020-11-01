@@ -10,7 +10,7 @@ services:
       - app
     # restart: always
     environment:
-      DOMAINS: 'fuga.kadono.work -> http://app:8080'
+      DOMAINS: 'fuga.kadowork.com -> http://app:8080'
       STAGE: 'production'
       WEBSOCKET: 'true'
       # FORCE_RENEW: 'true'
