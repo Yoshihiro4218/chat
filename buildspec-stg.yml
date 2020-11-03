@@ -19,6 +19,6 @@ phases:
       - docker build -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/stg-chat:$IMAGE_TAG .
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/stg-chat:$IMAGE_TAG
       - cd $BASE_DIR
-      - printf '[{"name":"chat","imageUri":"%s"}]' $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/stg-chat:$IMAGE_TAG > imagedefinitions.json
+      - printf '[{"name":"stg-chat","imageUri":"%s"}]' $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/stg-chat:$IMAGE_TAG > imagedefinitions.json
 artifacts:
   files: imagedefinitions.json
