@@ -17,6 +17,6 @@ phases:
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/chat:$IMAGE_TAG
       - echo "PUSH COMPLETED!"
       - cd $BASE_DIR
-      - printf '[{"name":"prod--chat","imageUri":"%s"}]' $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/chat:$IMAGE_TAG > imagedefinitions.json
+      - printf '[{"name":"prod--chat-bg-deploy","imageUri":"%s"}]' $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/chat:$IMAGE_TAG > imagedefinitions.json
 artifacts:
   files: imagedefinitions.json
