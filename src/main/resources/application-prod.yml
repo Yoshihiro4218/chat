@@ -8,6 +8,11 @@ spring:
   thymeleaf:
     mode: HTML
 
+server:
+  tomcat:
+    remote-ip-header: x-forwarded-for
+    protocol-header: x-forwarded-proto
+
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
