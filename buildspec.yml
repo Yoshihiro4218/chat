@@ -17,6 +17,9 @@ phases:
       - docker tag $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/stg-chat:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/chat:$IMAGE_TAG
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/chat:$IMAGE_TAG
       - echo "PUSH COMPLETED!"
-      - printf '[{"name":"prod--chat-bg-deploy","imageUri":"%s"}]' $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/chat:$IMAGE_TAG > imageDetail.json
+      - printf '[{"Version":"1.0","imageUri":"%s"}]' $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/chat:$IMAGE_TAG > imageDetail.json
+      - printf '[{"name":"prod--chat-use-alb","imageUri":"%s"}]' $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/stg-chat:$IMAGE_TAG > imagedefinitions.json
 artifacts:
-  files: imageDetail.json
+  files:
+    - imageDetail.json
+    - imagedefinitions.json
