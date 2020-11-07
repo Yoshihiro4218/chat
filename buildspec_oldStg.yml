@@ -7,7 +7,6 @@ env:
 phases:
   pre_build:
     commands:
-      - echo Logging in to Amazon ECR...
       - BASE_DIR=`pwd`
       - $(aws ecr get-login --region ap-northeast-1 --no-include-email)
   build:
@@ -17,6 +16,7 @@ phases:
       - docker tag $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/stg-chat:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/chat:$IMAGE_TAG
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/chat:$IMAGE_TAG
       - echo "PUSH COMPLETED!"
-      - printf '[{"name":"prod--chat-bg-deploy","imageUri":"%s"}]' $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/chat:$IMAGE_TAG > imageDetail.json
+      - cd $BASE_DIR
+      - printf '[{"name":"prod--chat-bg-deploy","imageUri":"%s"}]' $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/chat:$IMAGE_TAG > imagedefinitions.json
 artifacts:
-  files: imageDetail.json
+  files: imagedefinitions.json
